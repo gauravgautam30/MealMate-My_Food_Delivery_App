@@ -1,3 +1,146 @@
-h1 {
-  color: red;
+/* General Styles */
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  background-color: #f4f4f4;
+}
+
+/* Header Styles */
+.header {
+  background-color: #2c3e50;
+  padding: 20px 40px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 120px;
+  height: auto;
+  margin-right: 80px;
+}
+
+.nav-items ul {
+  list-style-type: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-items li {
+  color: #ecf0f1;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  padding: 8px 15px;
+  border-radius: 4px;
+}
+
+.nav-items li:hover {
+  color: #2c3e50;
+  background-color: #ecf0f1;
+}
+
+/* Body Styles */
+.body {
+  padding: 20px 40px;
+}
+
+.search {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #2c3e50;
+  font-weight: bold;
+}
+
+.res-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Restaurant Card Styles */
+.res-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 300px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.res-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.res-card h3 {
+  margin: 10px 0;
+  font-size: 22px;
+  color: #2c3e50;
+}
+
+.res-card:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.filter-btn {
+  margin: 10px;
+  cursor: pointer;
+}
+.login-btn {
+  cursor: pointer;
+}
+
+/* Container for the shimmer effect, matching the restaurant cards layout */
+.shimmer-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px 40px;
+}
+
+/* Individual shimmer cards, matching the restaurant card dimensions */
+.shimmer-card {
+  width: 300px;
+  height: 350px; /* Assuming the restaurant card height is similar */
+  border-radius: 8px;
+  background: #e0e0e0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer animation effect */
+.shimmer-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+/* Shimmer animation keyframes */
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
 }
