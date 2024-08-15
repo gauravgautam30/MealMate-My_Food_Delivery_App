@@ -1,6 +1,7 @@
 import RestaurentCard from "./RestaurentCard";
 import { useEffect, useState } from "react";
 import resList from "../utils/mockData";
+import { Link } from "react-router-dom";
 import Shimmer from "./Shimmer";
 
 const Body = () => {
@@ -23,8 +24,17 @@ const Body = () => {
     const json = await data.json();
 
     for (let i = 0; i <= 10; i++) {
-      console.log(json.data.cards[i].card.card.gridElements);
-      if (json.data.cards[i].card.card.gridElements !== undefined) {
+      console.log(
+        json?.data?.cards[i]?.card?.card?.gridElements?.infoWithStyle
+      );
+
+      if (
+        json?.data?.cards[i]?.card?.card?.gridElements?.infoWithStyle !==
+        undefined
+      ) {
+        console.log(
+          json.data.cards[i].card.card.gridElements.infoWithStyle.restaurants
+        );
         setListOfRestaurent(
           json?.data?.cards[i]?.card?.card?.gridElements?.infoWithStyle
             ?.restaurants
@@ -35,11 +45,6 @@ const Body = () => {
         );
       }
     }
-
-    // setTimeout(() => {
-    //   setListOfRestaurent(resList);
-    //   setFilteredListOfRestaurent(resList);
-    // }, 500);
   };
   {
     return listOfRestaurent.length === 0 ? (
@@ -70,9 +75,9 @@ const Body = () => {
             className="filter-btn"
             onClick={() => {
               filteredList = listOfRestaurent.filter(
-                (res) => res.info.avgRating > 4
+                (res) => res.info.avgRating >= 4.3
               );
-              console.log(resList);
+              // console.log(resList);
               setFilteredListOfRestaurent(filteredList);
             }}
           >
@@ -81,7 +86,13 @@ const Body = () => {
         </div>
         <div className="res-container">
           {FilteredlistOfRestaurent.map((res) => (
-            <RestaurentCard key={res.info.id} resData={res} />
+            <Link
+              key={res.info.id}
+              to={"/restaurants/" + res.info.id}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <RestaurentCard key={res.info.id} resData={res} />
+            </Link>
           ))}
           ;
         </div>
