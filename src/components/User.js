@@ -13,7 +13,7 @@ const User = () => {
     setUserData(json.data);
     // console.log("DATA", userData);
   };
-  console.log(userData[1]);
+  // console.log(userData[1]);
   return (
     <div className="user-container">
       {userData.map((user) => (
