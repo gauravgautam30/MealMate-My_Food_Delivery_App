@@ -4,7 +4,6 @@ const Error = () => {
 
   return (
     <div className="error-container">
-      {console.log(err)}
       <h1>{err.statusText}</h1>
       <p>{err.status}</p>
     </div>

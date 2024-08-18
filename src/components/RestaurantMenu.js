@@ -3,10 +3,13 @@ import { useParams } from "react-router-dom";
 import { MENU_API } from "../utils/constant";
 import { CDN_URL } from "../utils/constant";
 import Shimmer from "./Shimmer";
+import RestaurantCategory from "./RestaurantCategory";
 
 const RestaurantMenu = () => {
   const [resInfo, setResinfo] = useState(null);
   const [ItemCards, setItemCards] = useState(null);
+  const [Categories, setCategories] = useState(null);
+  const [showIndex, setShowIndex] = useState(true);
 
   const { resId } = useParams();
   useEffect(() => {
@@ -16,7 +19,6 @@ const RestaurantMenu = () => {
   const fetchResInfo = async () => {
     const data = await fetch(MENU_API + resId);
     const json = await data.json();
-    // console.log("RES DATA:: ", json?.data?.cards[2]?.card?.card?.info);
     setResinfo(json?.data);
 
     for (let i = 0; i <= 10; i++) {
@@ -26,9 +28,25 @@ const RestaurantMenu = () => {
             ?.card?.card?.itemCards;
 
         if (itemCards !== undefined && itemCards.length > 0) {
-          console.log("MENU DATA:: ", itemCards[0].card.info);
           setItemCards(itemCards);
         }
+      }
+
+      if (
+        json?.data?.cards[i]?.groupedCard?.cardGroupMap?.REGULAR?.cards !==
+          undefined &&
+        json?.data?.cards[i]?.groupedCard?.cardGroupMap?.REGULAR?.cards.length >
+          0
+      ) {
+        const categoriesRaw = json?.data?.cards[
+          i
+        ]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter((c) => {
+          return (
+            c?.card?.card?.["@type"] ===
+            "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+          );
+        });
+        setCategories(categoriesRaw);
       }
     }
   };
@@ -36,36 +54,31 @@ const RestaurantMenu = () => {
   if (resInfo === null) return <Shimmer />;
 
   return (
-    <div className="menu-container">
-      <h1>{resInfo?.cards[2]?.card?.card?.info.name}</h1>
-      <img
+    <div className="text-center">
+      <h1 className="font-bold mt-6 text-2xl">
+        {resInfo?.cards[2]?.card?.card?.info.name}
+      </h1>
+      {/* <img
         className="res-img"
         src={CDN_URL + resInfo?.cards[2]?.card?.card?.info?.cloudinaryImageId}
         alt="Biryani"
-      />
-      <h3>{`${resInfo?.cards[2]?.card?.card?.info?.avgRatingString} (${resInfo?.cards[2]?.card?.card?.info?.totalRatingsString})    • ${resInfo?.cards[2]?.card?.card?.info?.costForTwoMessage}`}</h3>
+      /> */}
+      <h3 className="font-bold">{`${resInfo?.cards[2]?.card?.card?.info?.avgRatingString} (${resInfo?.cards[2]?.card?.card?.info?.totalRatingsString})    • ${resInfo?.cards[2]?.card?.card?.info?.costForTwoMessage}`}</h3>
       <h3>{`${resInfo?.cards[2]?.card?.card?.info?.cuisines.join(", ")}`}</h3>
-      <h2 className="menu-name">Menu</h2>
-      <ul>
-        {ItemCards.map((item, index) => (
-          <li key={index}>
-            <h3>{item.card.info.name}</h3>
-            <img
-              className="menu-img"
-              src={CDN_URL + item.card.info?.imageId}
-              alt={item.card.info.name}
-            />
-            <p>{item.card.info?.ratings?.aggregatedRating?.rating} ☆</p>
-            <p>
-              ₹{" "}
-              {item.card.info?.price
-                ? Math.floor(item.card.info.price / 100)
-                : "500"}
-            </p>
-            <p>{item.card.info?.description}</p>
-          </li>
-        ))}
-      </ul>
+
+      {/* {category accordian} */}
+
+      {Categories.map((category, index) => {
+        return (
+          <RestaurantCategory
+            key={category?.card?.card.title}
+            data={category?.card?.card}
+            showItems={index === showIndex ? true : false}
+            // showItems={(index = !showIndex)}
+            setShowItems={() => setShowIndex(index)}
+          />
+        );
+      })}
     </div>
   );
 };

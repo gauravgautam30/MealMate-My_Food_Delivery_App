@@ -9,11 +9,8 @@ const User = () => {
   const getUserData = async () => {
     const data = await fetch("https://reqres.in/api/users?page=1");
     const json = await data.json();
-    // console.log("DADA ", json.data);
     setUserData(json.data);
-    // console.log("DATA", userData);
   };
-  // console.log(userData[1]);
   return (
     <div className="user-container">
       {userData.map((user) => (

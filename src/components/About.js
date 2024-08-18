@@ -30,7 +30,7 @@ const About = () => {
         Join our community of food lovers and experience the joy of eating,
         delivered.
       </p>
-      <h2>Our Team</h2>
+      <h1 className="about-us-heading underline text-red-800">Our Team</h1>
       <User />
     </div>
   );
